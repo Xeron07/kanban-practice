@@ -5,7 +5,6 @@ import {
   LockOpenIcon,
   LockClosedIcon,
 } from "@heroicons/react/solid";
-import { v4 as uuidv4 } from "uuid";
 import TextareaAutosize from "react-textarea-autosize";
 
 class ItemComponent extends React.Component<ItemObject> {

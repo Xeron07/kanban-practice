@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import Card from "../models/card";
 import TextareaAutosize from "react-textarea-autosize";
 import ItemComponent from "./Item";
-import IItemObj from "../models/item";
 
 type State = {
   id: String;
