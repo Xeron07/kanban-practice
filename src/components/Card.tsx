@@ -123,7 +123,7 @@ class CardComponent extends React.Component<Card, State> {
               {this.props.addedLists.map((obj, inx) => {
                 return (
                   <div
-                    key={inx}
+                    key={obj.id + inx}
                     draggable={!obj.isLocked}
                     onDragStart={(e) => {
                       e.dataTransfer.setData(

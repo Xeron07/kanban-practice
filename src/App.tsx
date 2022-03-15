@@ -1,20 +1,27 @@
-import React, { ReactComponentElement, ReactElement, useState } from "react";
+import React, {
+  ReactComponentElement,
+  ReactElement,
+  useEffect,
+  useState,
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import CardComponent from "./components/Card";
 import { randomColorPicker } from "./Utils/cardColor";
 import IItemObj from "./models/item";
-import colorPicker from "./Utils/cardColor";
-
-interface ICardObj {
-  name: string;
-  id: string;
-  color: string;
-  itemList: Array<IItemObj>;
-}
+import ICardObj from "./models/ICardInterface";
+import StoreData, { UpdateDataToStore } from "./Utils/store";
 
 const App = () => {
   const [cards, addCard] = useState<ICardObj[]>([]);
+  const [firstTime, setFirstTime] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (firstTime) {
+      addCard([...StoreData()]);
+      setFirstTime(false);
+    }
+  });
 
   const buttonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -57,6 +64,8 @@ const App = () => {
     });
 
     addCard([...cardList]);
+
+    UpdateDataToStore(cards);
   };
 
   const handleItemDrop = (cardIndex: number, event: React.DragEvent) => {
@@ -65,11 +74,16 @@ const App = () => {
     );
     const itemIndex = parseInt(event.dataTransfer.getData("item-index"));
     if (!cards[previousCardIndex].itemList[itemIndex].isLocked) {
-      cards[cardIndex].itemList.unshift(
-        cards[previousCardIndex].itemList[itemIndex]
-      );
-      cards[previousCardIndex].itemList.splice(itemIndex, 1);
+      cards[cardIndex].itemList.unshift({
+        ...cards[previousCardIndex].itemList[itemIndex],
+      });
+      cards[previousCardIndex].itemList = [
+        ...cards[previousCardIndex].itemList.filter(
+          (obj, inx) => inx !== itemIndex
+        ),
+      ];
       addCard([...cards]);
+      UpdateDataToStore(cards);
     }
   };
 
@@ -77,7 +91,7 @@ const App = () => {
     return cards.map((o, i) => {
       return (
         <div
-          key={i}
+          key={o.id + o.name}
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
             handleItemDrop(i, e);
