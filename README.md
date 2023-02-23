@@ -27,4 +27,4 @@ To edit name of card or item please double click on the name.
 
 Data will be store in localstorage.
 
-You can play with this in [Live Demo]([https://6230fc5119e42f1469b1f374--jovial-mestorf-80e8b7.netlify.app/](https://63f731c884655704da2e5697--jovial-mestorf-80e8b7.netlify.app/)).
+You can play with this in [Live Demo](https://63f731c884655704da2e5697--jovial-mestorf-80e8b7.netlify.app/).
